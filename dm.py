@@ -8,6 +8,8 @@ import re
 def read_dms():
     messages = ww.api.list_direct_messages(100)
     return messages
+
+
 def send_response():
     messages = read_dms()
     if messages:
@@ -25,16 +27,15 @@ def send_response():
                     response = "Please send a message with a zip code for which you would like a weather report"
                 else:
                     url = f"http://api.weatherapi.com/v1/forecast.json?key={config.WW_API}&q={zip}&days=1"
-                    dm_response = ww.generate_tweet()
+                    dm_response = ww.generate_tweet(url)
                     response = "Hi! Thanks for messaging WeatherWare! Here is your weather report:\n" + dm_response
 
                 ww.api.send_direct_message(user_id, response)
                 ww.api.destroy_direct_message(i_d)
 
 
-
-#have a sleep for like 5 minutes. wayscript can run the script every 10 minutes
-#so if we have a sleep for 5 minutes and then repeat the code we can have
-#responses every 5 minutes
+# Have a sleep for like 5 minutes. wayscript can run the script every 10 minutes
+# so if we have a sleep for 5 minutes and then repeat the code we can have
+# responses every 5 minutes
 if __name__ == '__main__':
     send_response()
