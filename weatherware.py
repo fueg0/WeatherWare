@@ -33,10 +33,10 @@ def get_day(json_info):
     return json_info[0].get('day')
 
 
-def generate_tweet(link):
-    tweet = DayWeather.DayWeather(link)
+def generate_tweet(link, zip):
+    tweet = DayWeather.DayWeather(link, zip)
     return tweet.make_tweet()
 
 
 if __name__ == '__main__':
-    api.update_status(generate_tweet(url))
+    api.update_status(generate_tweet(url, config.zipcode))

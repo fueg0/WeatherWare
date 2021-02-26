@@ -1,10 +1,19 @@
 import weatherware
+import config
+from datetime import date
+from datetime import datetime
+import calendar
+my_date = date.today()
+weekday = calendar.day_name[my_date.weekday()]
 
 
 class DayWeather:
-    def __init__(self, url):
-        info = weatherware.get_day(weatherware.get_page(url))
+    def __init__(self, url, zipcode):
+        loc = weatherware.get_page(url)
+        info = weatherware.get_day(loc)
         self.conditions = info.get('condition').get('text')
+        self.city = loc.get('location').get('name')
+        self.state = loc.get('location').get('region')
         self.max = info.get('maxtemp_f')
         self.min = info.get('mintemp_f')
         self.avg = info.get('avgtemp_f')
@@ -15,9 +24,11 @@ class DayWeather:
         self.snow = info.get('daily_chance_of_snow')
         self.precip = info.get('totalprecip_in')
         self.uv = info.get('uv')
+        self.zip = zipcode
 
     def make_tweet(self):
-        tweet = f'Conditions today: {self.conditions}\n' \
+        tweet = f'Weather for {self.city}, {self.state}, {weekday}, {my_date}\n\n' \
+                f'Conditions today: {self.conditions}\n' \
                 f'High: {self.max}F, Low: {self.min}F\n' \
                 f'Average Temperature: {self.avg}F\n' \
                 f'Chance of rain: {self.rain}% / snow: {self.snow}%\n' \
