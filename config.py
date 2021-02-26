@@ -11,4 +11,5 @@ access_token = ""
 access_token_secret = ""
 
 # US Zipcode for weather
+# Set your default zipcode here for tweeting the same location
 zipcode = ""
